@@ -1,10 +1,12 @@
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.chrome.webdriver import WebDriver as chrome
+from selenium.webdriver.firefox.webdriver import WebDriver as firefox
 
 
 class Aplication:
 
     def __init__(self):
-        self.driver = WebDriver(executable_path="./resource/chromedriver.exe")
+        self.driver = chrome(executable_path="./resource/chromedriver.exe")
+        # self.driver = firefox(executable_path="./resource/geckodriver.exe")
         self.driver.get("http://commentssprintone.azurewebsites.net/")
 
     def click_button_new(self):
