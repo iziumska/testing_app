@@ -1,7 +1,7 @@
 """This tests check main fields on the first main page"""
 
 import unittest
-from aplication import Aplication
+from structure.aplication import Aplication
 
 expected_list = \
     ["Comments", "New",
@@ -22,9 +22,9 @@ class TestMainPage(unittest.TestCase):
         title = self.app.driver.find_element_by_tag_name("h1").text
         self.assertEqual(title, expected_list[0])
 
-    def test_text_newbutton(self):
-        text_newbutton = self.app.driver.find_element_by_id("newbutton").text
-        self.assertEqual(text_newbutton, expected_list[1])
+    def test_text_new_button(self):
+        text_new_button = self.app.driver.find_element_by_id("newbutton").text
+        self.assertEqual(text_new_button, expected_list[1])
 
     def test_text_header(self):
         # this test failed("Categories" != "Категории")

@@ -3,8 +3,8 @@ The tests perform a check for entering a new comment
 """
 
 import unittest
-from arguments import Arguments
-from aplication import Aplication, Comment
+from structure.arguments import Arguments
+from structure.aplication import Aplication, Comment
 
 
 new_comment_data = [["abc", "123"], ["abc2", "124"],
@@ -23,13 +23,11 @@ expected_list = \
 
 class TestNewComment(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        TestNewComment.app = Aplication()
+    def setUp(self):
+        self.app = Aplication()
 
-    @classmethod
-    def tearDownClass(cls):
-        TestNewComment.app.driver.close()
+    def tearDown(self):
+        self.app.driver.close()
 
     def test_empty_field_comment(self):
         self.app.click_button_new()

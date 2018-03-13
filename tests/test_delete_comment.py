@@ -1,6 +1,6 @@
 
 import unittest
-from aplication import Aplication, Comment
+from structure.aplication import Aplication, Comment
 
 expected_list_text = ["Please, select one category",
                       "Selected comments deleted successfull"]
@@ -8,13 +8,11 @@ expected_list_text = ["Please, select one category",
 
 class TestDeleteComment(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        TestDeleteComment.app = Aplication()
+    def setUp(self):
+        self.app = Aplication()
 
-    @classmethod
-    def tearDownClass(cls):
-        TestDeleteComment.app.driver.close()
+    def tearDown(self):
+        self.app.driver.close()
 
     def test_delete_comment(self):
         # select item
@@ -34,6 +32,8 @@ class TestDeleteComment(unittest.TestCase):
                                               "div/div[5]/form/table/tbody/"
                                               "tr[1]/td[1]/input[1]").click()
 
+        # self.app.driver.find_element_by_name("SelectedId").click()
+
         self.app.button_delete()
 
         # check is comment delete
@@ -43,8 +43,8 @@ class TestDeleteComment(unittest.TestCase):
 
     def test_not_selected_delete_comment(self):
         # click delete
-        self.app.driver.find_element_by_xpath("//*[@id='command-navigation']/"
-                                              "input[3]").click()
+        self.app.driver.find_element_by_xpath("//input[@value = "
+                                              "'Delete']").click()
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
@@ -53,15 +53,11 @@ class TestDeleteComment(unittest.TestCase):
     def test_two_items_selected(self):
         # select item for delete
         comment_for_deleting = \
-            self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                                  "div/div[5]/form/table/"
-                                                  "tbody/tr[1]")
+            self.app.driver.find_element_by_css_selector("tbody td")
         comment_for_deleting.find_element_by_name("SelectedId").click()
 
         comment2_for_deleting = \
-            self.app.driver.find_element_by_xpath("//*[@id='main']/div/"
-                                                  "div[5]/form/table/"
-                                                  "tbody/tr[2]")
+            self.app.driver.find_element_by_css_selector(".webgrid-alternating-row")
         comment2_for_deleting.find_element_by_name("SelectedId").click()
 
         self.app.button_delete()

@@ -5,8 +5,9 @@ from selenium.webdriver.firefox.webdriver import WebDriver as firefox
 class Aplication:
 
     def __init__(self):
-        self.driver = chrome(executable_path="./resource/chromedriver.exe")
-        # self.driver = firefox(executable_path="./resource/geckodriver.exe")
+        # System.setProperty("webdriver.chrome.webdriver", "./resource/chromedriver.exe")
+        self.driver = chrome(executable_path="../resource/chromedriver.exe")
+        # self.driver = firefox(executable_path="../resource/geckodriver.exe")
         self.driver.get("http://commentssprintone.azurewebsites.net/")
 
     def click_button_new(self):
@@ -30,9 +31,9 @@ class Aplication:
         driver = self.driver
 
         # check button 'AllCategories' and click
-        button_allSelected = driver.find_element_by_name("AllSelect")
-        button_allSelected.is_enabled()
-        button_allSelected.click()
+        button_all_selected = driver.find_element_by_name("AllSelect")
+        button_all_selected.is_enabled()
+        button_all_selected.click()
 
     def button_save(self):
         driver = self.driver
@@ -95,8 +96,7 @@ class Aplication:
 
     def dublicate_button(self):
         driver = self.driver
-        driver.find_element_by_xpath("//*[@id='command-navigation']/"
-                                     "input[1]").click()
+        driver.find_element_by_xpath("//input[@value = 'Duplicate...']").click()
 
     def make_dublicate_comment(self):
         driver = self.driver
@@ -121,8 +121,7 @@ class Aplication:
     def button_edit(self):
         driver = self.driver
         # click edit
-        driver.find_element_by_xpath("//*[@id='command-navigation']/"
-                                     "input[2]").click()
+        driver.find_element_by_xpath("//input[@value = 'Edit..']").click()
 
     def select_item(self):
         driver = self.driver
@@ -137,8 +136,9 @@ class Aplication:
     def button_delete(self):
         driver = self.driver
         # button delete and confirm
-        driver.find_element_by_xpath("//*[@id='command-navigation']/"
-                                     "input[3]").click()
+        # driver.find_element_by_xpath("//*[@id='command-navigation']/"
+        #                              "input[3]").click()
+        driver.find_element_by_xpath("//input[@value = 'Delete']").click()
         driver.find_element_by_xpath("/html/body/div[2]/div[3]/"
                                      "div/button[1]/span").click()
 

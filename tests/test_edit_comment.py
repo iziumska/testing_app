@@ -3,7 +3,7 @@ The tests perform a check for editing comment
 """
 
 import unittest
-from aplication import Aplication, Comment
+from structure.aplication import Aplication, Comment
 
 new_data = [["Edit comment", "555"], ["Edit comment2", "777"]]
 expected_list_text = ["Please, select one category", ]
@@ -11,13 +11,11 @@ expected_list_text = ["Please, select one category", ]
 
 class TestEditComment(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        TestEditComment.app = Aplication()
+    def setUp(self):
+        self.app = Aplication()
 
-    @classmethod
-    def tearDownClass(cls):
-        TestEditComment.app.driver.close()
+    def tearDown(self):
+        self.app.driver.close()
 
     def test_edit_comment(self):
         # select item
@@ -90,15 +88,11 @@ class TestEditComment(unittest.TestCase):
     def test_two_items_selected(self):
         # select item for edit
         comment_for_editing = \
-            self.app.driver.find_element_by_xpath("//*[@id='main']/div/"
-                                                  "div[5]/form/table/"
-                                                  "tbody/tr[1]")
+            self.app.driver.find_element_by_css_selector("tbody td")
         comment_for_editing.find_element_by_name("SelectedId").click()
 
         comment2_for_editing = \
-            self.app.driver.find_element_by_xpath("//*[@id='main']/div/"
-                                                  "div[5]/form/table/"
-                                                  "tbody/tr[2]")
+            self.app.driver.find_element_by_css_selector(".webgrid-alternating-row")
         comment2_for_editing.find_element_by_name("SelectedId").click()
 
         self.app.button_edit()
