@@ -3,10 +3,10 @@ The tests perform a check for editing comment
 """
 
 import unittest
-from structure.aplication import Aplication, Comment
+from page.aplication import Aplication
+from page.expected_list import *
 
 new_data = [["Edit comment", "555"], ["Edit comment2", "777"]]
-expected_list_text = ["Please, select one category", ]
 
 
 class TestEditComment(unittest.TestCase):
@@ -18,13 +18,8 @@ class TestEditComment(unittest.TestCase):
         self.app.driver.close()
 
     def test_edit_comment(self):
-        # select item
-        self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                              "div/div[5]/form/table/"
-                                              "tbody/tr[1]/td[1]/"
-                                              "input[1]").click()
-
-        self.app.button_edit()
+        self.app.select_first_comment()
+        self.app.edit_button()
 
         # data edit comment
         edit_text = self.app.driver.find_element_by_id("Text")
@@ -42,27 +37,21 @@ class TestEditComment(unittest.TestCase):
         # check is comment edit
         list_comments = self.app.all_comments()
         self.assertIn(edit_comment, list_comments)
-        self.app.button_return()
 
     def test_is_old_comment_change(self):
         # select item
+        comment_for_edit = \
+            self.app.driver.find_element_by_css_selector("tbody > tr:nth-child(1)")
         text = \
-            self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                                  "div/div[5]/form/table/"
-                                                  "tbody/tr[1]/td[3]").text
-        number = self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                                       "div/div[5]/form/"
-                                                       "table/tbody/tr[1]/"
-                                                       "td[2]").text
-        categories = self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                                           "div/div[5]/form/"
-                                                           "table/tbody/"
-                                                           "tr[1]/td[5]").text
+            comment_for_edit.find_element_by_class_name("textcolumn").text
+        number = \
+            comment_for_edit.find_element_by_class_name("numbercolumn").text
+        categories = \
+            comment_for_edit.find_element_by_class_name("categorycolumn").text
         old_comment = Comment(number, text, categories)
-        self.app.driver.find_element_by_xpath("//*[@id='main']/"
-                                              "div/div[5]/form/table/tbody/"
-                                              "tr[1]/td[1]/input[1]").click()
-        self.app.button_edit()
+        self.app.driver.find_element_by_name("SelectedId").click()
+
+        self.app.edit_button()
 
         # data edit comment
         edit_text = self.app.driver.find_element_by_id("Text")
@@ -76,30 +65,24 @@ class TestEditComment(unittest.TestCase):
         # check is no old comment
         list_comments = self.app.all_comments()
         self.assertNotIn(old_comment, list_comments)
-        self.app.button_return()
 
     def test_not_selected_edit_comment(self):
-        self.app.button_edit()
+        self.app.edit_button()
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
-        self.assertEqual(warning, expected_list_text[0])
+        self.assertEqual(warning, SELECT_ONE_CATEGORY)
 
     def test_two_items_selected(self):
-        # select item for edit
-        comment_for_editing = \
-            self.app.driver.find_element_by_css_selector("tbody td")
-        comment_for_editing.find_element_by_name("SelectedId").click()
+        # select items for edit
+        self.app.select_first_comment()
+        self.app.select_second_comment()
 
-        comment2_for_editing = \
-            self.app.driver.find_element_by_css_selector(".webgrid-alternating-row")
-        comment2_for_editing.find_element_by_name("SelectedId").click()
-
-        self.app.button_edit()
+        self.app.edit_button()
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
-        self.assertEqual(warning, expected_list_text[0])
+        self.assertEqual(warning, SELECT_ONE_CATEGORY)
 
 
 if __name__ == '__main__':
