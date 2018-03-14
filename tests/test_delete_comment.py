@@ -4,8 +4,8 @@ Tests check deleting of comment
 
 
 import unittest
-from page.aplication import Aplication
-from page.expected_list import *
+from page.aplication import Aplication, Comment
+from page.expected_variables import expected_variables
 
 
 class TestDeleteComment(unittest.TestCase):
@@ -41,7 +41,8 @@ class TestDeleteComment(unittest.TestCase):
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
-        self.assertEqual(warning, SELECT_ONE_CATEGORY)
+        self.assertEqual(warning,
+                         expected_variables["select_one_category"])
 
     def test_two_items_selected(self):
         # select items
@@ -54,7 +55,8 @@ class TestDeleteComment(unittest.TestCase):
         actual_text = \
             self.app.driver.find_element_by_xpath("// *[ @ id = "
                                                   "'infoField']").text
-        self.assertEqual(actual_text, DELETED_SUCCESSFULL)
+        self.assertEqual(actual_text,
+                         expected_variables["deleted_successfull"])
 
 
 if __name__ == '__main__':

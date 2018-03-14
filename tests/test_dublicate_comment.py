@@ -4,8 +4,8 @@ Tests perform a check on dublication of comment
 
 
 import unittest
-from page.aplication import Aplication
-from page.expected_list import *
+from page.aplication import Aplication, Comment
+from page.expected_variables import expected_variables
 
 data_duplicate_comment = [["999"], ["Duplicate comment"]]
 
@@ -45,14 +45,16 @@ class TestDuplicateComment(unittest.TestCase):
         self.app.duplicate_button()
         self.app.save_button()
         warning = self.app.driver.find_element_by_id("errorfield").text
-        self.assertEqual(warning, UNIQUE_NUMBER_FIELD)
+        self.assertEqual(warning,
+                         expected_variables["unique_number_field"])
 
     def test_not_selected_duplicate_comment(self):
         self.app.duplicate_button()
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
-        self.assertEqual(warning, SELECT_ONE_CATEGORY)
+        self.assertEqual(warning,
+                         expected_variables["select_one_category"])
 
     def test_two_items_selected(self):
         # select items for duplicate
@@ -63,7 +65,8 @@ class TestDuplicateComment(unittest.TestCase):
         alert = self.app.driver.switch_to.alert
         warning = alert.text
         alert.accept()
-        self.assertEqual(warning, SELECT_ONE_CATEGORY)
+        self.assertEqual(warning,
+                         expected_variables["select_one_category"])
 
 
 if __name__ == '__main__':

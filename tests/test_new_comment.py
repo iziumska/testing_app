@@ -4,7 +4,7 @@ The tests perform a check for entering a new comment
 
 import unittest
 from page.aplication import Aplication, Arguments
-from page.expected_list import *
+from page.expected_variables import expected_variables
 
 new_comment_data = [["abc", "123"], ["abc2", "124"],
                     ["abc3", "125"], ["", "125"],
@@ -46,7 +46,7 @@ class TestNewComment(unittest.TestCase):
 
         # check an element
         list_comments = self.app.all_comments()
-        self.assertIn(FIRST_COMMENT, list_comments)
+        self.assertIn(expected_variables["first_comment"], list_comments)
 
     def test_new_comment_two_categories(self):
         # check for entering a new comment with two categories
@@ -57,7 +57,7 @@ class TestNewComment(unittest.TestCase):
 
         # check an element
         list_comments = self.app.all_comments()
-        self.assertIn(SECOND_COMMENT, list_comments)
+        self.assertIn(expected_variables["second_comment"], list_comments)
 
     def test_new_comment_without_categories(self):
         # check for entering a new comment with no categories
@@ -65,7 +65,7 @@ class TestNewComment(unittest.TestCase):
         self.app.adding_data(Arguments(*new_comment_data[2]))
         self.app.save_button()
         warning = self.app.driver.find_element_by_id("errorfield").text
-        self.assertEqual(warning, AT_LEAST_ONE_CATEGORY)
+        self.assertEqual(warning, expected_variables["at_list_one_category"])
 
     def test_new_comment_text_comment(self):
         # check for entering a new comment with no text comment
@@ -73,7 +73,7 @@ class TestNewComment(unittest.TestCase):
         self.app.adding_data(Arguments(*new_comment_data[3]))
         self.app.save_button()
         warning = self.app.driver.find_element_by_id("errorfield").text
-        self.assertEqual(warning, TEXT_FIELD_IS_REQUIRED_)
+        self.assertEqual(warning, expected_variables["text_field_is_required"])
 
     def test_refresh_button(self):
         # check for entering a new comment with refresh button
@@ -86,7 +86,7 @@ class TestNewComment(unittest.TestCase):
             self.app.driver.find_element_by_id("selectedCategories").text
         empty_fields = [comment_text_field, comment_number_field,
                         comment_selected_categories]
-        self.assertListEqual(empty_fields, EMPTY_LIST)
+        self.assertListEqual(empty_fields, expected_variables["empty_list"])
 
     def test_invalid_text_comment(self):
         # check for entering a new comment with invalid text comment
@@ -96,7 +96,7 @@ class TestNewComment(unittest.TestCase):
             self.app.driver.find_element_by_class_name("field-"
                                                        "validation-error")
         warning = block_warning.find_element_by_tag_name("span").text
-        self.assertEqual(warning, MAX_TEXT_FIELD)
+        self.assertEqual(warning, expected_variables["max_text_field"])
 
     def test_negative_number_comment(self):
         # check for entering a new comment with negative number comment
@@ -105,7 +105,7 @@ class TestNewComment(unittest.TestCase):
         self.app.select_two_categories()
         self.app.save_button()
         warning = self.app.driver.find_element_by_id("errorfield").text
-        self.assertEqual(warning, CONTAINS_ONLY_DIGITS)
+        self.assertEqual(warning, expected_variables["contains_only_digits"])
 
     def test_max_number_comment(self):
         # check for entering a new comment with max value number comment
@@ -114,7 +114,7 @@ class TestNewComment(unittest.TestCase):
         self.app.select_two_categories()
         self.app.save_button()
         warning = self.app.driver.find_element_by_id("errorfield").text
-        self.assertEqual(warning, UNIQUE_NUMBER_FIELD)
+        self.assertEqual(warning, expected_variables["unique_number_field"])
 
 
 if __name__ == '__main__':

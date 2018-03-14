@@ -4,7 +4,7 @@ This tests check main fields on the first main page
 
 import unittest
 from page.aplication import Aplication
-from page.expected_list import *
+from page.expected_variables import expected_variables
 
 
 class TestMainPage(unittest.TestCase):
@@ -19,11 +19,11 @@ class TestMainPage(unittest.TestCase):
 
     def test_check_title(self):
         title = self.app.driver.find_element_by_tag_name("h1").text
-        self.assertEqual(title, COMMENTS)
+        self.assertEqual(title, expected_variables["comments"])
 
     def test_text_new_button(self):
         text_new_button = self.app.driver.find_element_by_id("newbutton").text
-        self.assertEqual(text_new_button, NEW_BUTTON)
+        self.assertEqual(text_new_button, expected_variables["new_button"])
 
     def test_text_header(self):
         # this test failed("Categories" != "Категории")
@@ -32,7 +32,7 @@ class TestMainPage(unittest.TestCase):
         for th in row_header:
             text = th.text
             text_header.append(text)
-        self.assertListEqual(text_header, LIST_HEADER)
+        self.assertListEqual(text_header, expected_variables["list_header"])
 
 
 if __name__ == '__main__':
